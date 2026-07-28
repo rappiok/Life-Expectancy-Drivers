@@ -19,11 +19,20 @@ Life expectancy is shaped by a tangle of economic, health, and infrastructure fa
 5. Regression modeling — Multiple regression to see which predictors matter most, with standardized coefficients so effect sizes are comparable across variables measured in different units.
 6. Model validation — Train/test split to check the model holds up on unseen countries rather than just the ones it was fit on, VIF to quantify the multicollinearity flagged in the correlation matrix, and residual plots to check the regression's assumptions actually hold.
 
+
+## Key findings so far
+- The model explains 87% of the variation in life expectancy across the 129 countries with complete data.
+- Under-5 mortality is the strongest predictor by a wide margin, followed by water access and GDP per capita. This is expected rather than surprising — under-5 mortality feeds directly into how life expectancy is calculated, so its dominance reflects that overlap more than an independent causal story.
+- Sanitation access and education spending show no statistically significant effect once the other variables are accounted for, likely because their signal overlaps with water access and under-5 mortality.
+- Health spending came out with a negative coefficient. This is very unlikely to be a real effect — more plausibly, countries with worse health outcomes spend more reactively, which reverses the direction you'd expect (reverse causality).
+- VIF scores for under-5 mortality, GDP per capita, and water access (5.4–7.0) confirm moderate multicollinearity among the model's strongest predictors — not severe enough to invalidate the regression, but enough that individual coefficients should be read as a cluster of related development indicators rather than fully independent effects.
+
 ## Known issues / things to watch
 - Sanitation and water access have the weakest coverage of all seven indicators, which shrinks the usable sample from 244 countries down to 129.
 - GDP per capita and under-5 mortality are both heavily skewed, so both were log-transformed before modeling.
 - Sanitation, water access, and under-5 mortality are all fairly correlated with each other, which can make it hard for the regression to cleanly separate their individual effects.
 - The 129 countries with complete data may not be representative of all 244 — countries missing sanitation/water data could skew poorer or less stable, which would bias what the model's conclusions actually apply to.
+- Health spending's negative coefficient is likely reverse causality rather than a real effect, and shouldn't be read at face value.
 
 ## Status
-Data pipeline and exploratory analysis are done. Currently adding train/test validation, VIF, and residual diagnostics. Improvement-forecast section is next after that.
+Regression, standardized coefficients, and VIF are done. Train/test validation and residual diagnostics are next, followed by the improvement-forecast section.
