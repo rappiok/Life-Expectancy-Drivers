@@ -1,7 +1,7 @@
 # Life Expectancy Drivers
 
 ## Overview
-This project looks at what predicts life expectancy across countries, using World Bank data from 2015–2024. It covers pulling data through their API, cleaning and merging it, exploring relationships between variables, and building a regression model with proper validation. A second part looks at which countries are improving fastest over time, with more added as the project progresses.
+This project looks at what predicts life expectancy across countries, using World Bank data from 2015–2024. It covers pulling data through their API, cleaning and merging it, exploring relationships between variables, and building a regression model with proper validation. The later part looks at which countries are improving fastest over time, with more added as the project progresses.
 
 ## Motivation
 Life expectancy is shaped by a tangle of economic, health, and infrastructure factors, and untangling which ones actually carry predictive weight (versus just moving together) is a genuinely hard problem — one with real relevance to how health and development resources get prioritized. This project works through that problem end to end: pulling live data, dealing with its gaps and biases honestly, and testing whether the resulting model holds up out of sample rather than just fitting the numbers in front of it.
