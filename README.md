@@ -18,7 +18,8 @@ Life expectancy is shaped by a tangle of economic, health, and infrastructure fa
 4. Exploratory analysis — Checked distributions, scatter plots of each predictor against life expectancy, and a correlation matrix across all variables.
 5. Regression modeling — Multiple regression to see which predictors matter most, with standardized coefficients so effect sizes are comparable across variables measured in different units.
 6. Model validation — Train/test split to check the model holds up on unseen countries rather than just the ones it was fit on, VIF to quantify the multicollinearity flagged in the correlation matrix, and residual plots to check the regression's assumptions actually hold.
-7. Improvement trends — Fit a per-country trend line on life expectancy history to rank fastest improvers, projected forward 5 years, and combined improvement rate with room-to-grow into a momentum score.
+7. Model comparison — Random forest trained on the same features and split, compared against the linear model's test performance, plus a comparison of feature importances between the two methods.
+8. Improvement trends — Fit a per-country trend line on life expectancy history to rank fastest improvers, projected forward 5 years, and combined improvement rate with room-to-grow into a momentum score.
 
 
 ## Key findings so far
@@ -29,6 +30,7 @@ Life expectancy is shaped by a tangle of economic, health, and infrastructure fa
 - VIF scores for under-5 mortality, GDP per capita, and water access (5.7–6.9) confirm moderate multicollinearity among the model's strongest predictors — not severe enough to invalidate the regression, but enough that individual coefficients should be read as a cluster of related development indicators rather than fully independent effects.
 - R² held up reasonably well on a held-out test set (0.82 vs. 0.86 on training), suggesting the model generalizes rather than just fitting the countries it was trained on.
 - Residuals show no major pattern against fitted values, but have heavier tails than a normal distribution — the model is least reliable at the extremes of the life expectancy range. The countries it most underpredicts (Lebanon, Peru, Malawi, Nepal, Bangladesh) do better than their inputs suggest; the countries it most overpredicts split into two stories — Nigeria and Chad (likely conflict/health-system disruption) and Belarus/Latvia (a pattern consistent with higher alcohol- and cardiovascular-related mortality in Eastern Europe).
+- A random forest outperformed the linear model on the test set (0.89 vs. 0.82 R²), suggesting the true relationship has some curvature or interaction effects the straight-line model can't fully capture, consistent with the heavier tails seen in the residual plots. Its feature importances mostly agree with the regression (sanitation, health, and education spending are weakest either way), but rank water access above under-5 mortality, the reverse of the regression's order, likely two methods splitting credit differently between two correlated variables, rather than one model being right and the other wrong.
 - South Sudan, Eswatini, and Lesotho show the fastest life expectancy gains over 2015–2024. A momentum score combining improvement speed with room left to grow surfaces a similar but not identical group, since raw speed and how much runway a country has left aren't the same thing.
 
 ## Known issues / things to watch
@@ -37,7 +39,7 @@ Life expectancy is shaped by a tangle of economic, health, and infrastructure fa
 - Sanitation, water access, and under-5 mortality are all fairly correlated with each other, which can make it hard for the regression to cleanly separate their individual effects.
 - The 113 countries with complete data may not be representative of all 244 — countries missing sanitation/water data could skew poorer or less stable, which would bias what the model's conclusions actually apply to.
 - Health spending's negative coefficient is likely reverse causality rather than a real effect, and shouldn't be read at face value.
-- Trend-based projections in Part 2 assume the recent trend continues in a straight line, which is a shaky assumption for countries recovering from a low point — they should be read as "if the recent trend holds," not a real forecast.
+- Trend-based projections assume the recent trend continues in a straight line, which is a shaky assumption for countries recovering from a low point — they should be read as "if the recent trend holds," not a real forecast.
 - The momentum score's ceiling (85 years) is a judgment call, not a fixed number, and the ranking would shift somewhat with a different choice.
 
 ## Status
